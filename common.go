@@ -3,6 +3,12 @@ package fyndiq
 // RequestParams is used for passing query params
 type RequestParams map[string]string
 
+type response struct {
+	code   int
+	body   []byte
+	header map[string][]string
+}
+
 // MetaData holds the generic meta data response header
 type MetaData struct {
 	Limit      int    `json: "limit"`

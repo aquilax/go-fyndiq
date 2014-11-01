@@ -59,12 +59,12 @@ func (fapi *FyndiqAPI) GetProducts() (*ProductList, error) {
 		getPath([]string{productSegment}),
 		RequestParams{},
 	)
-	jsonBlob, err := getJSONBlob(url)
+	resp, err := httpRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
 	var result *ProductList
-	return result, json.Unmarshal(jsonBlob, &result)
+	return result, json.Unmarshal(resp.body, &result)
 }
 
 // GetProduct fetches single product by ID
@@ -74,11 +74,21 @@ func (fapi *FyndiqAPI) GetProduct(id int) (*Product, error) {
 		getPath([]string{productSegment, strconv.Itoa(id)}),
 		RequestParams{},
 	)
-	jsonBlob, err := getJSONBlob(url)
+	resp, err := httpRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
 	var result *Product
-	return result, json.Unmarshal(jsonBlob, &result)
+	return result, json.Unmarshal(resp.body, &result)
+}
 
+// DeleteProduct deletes single product by ID
+// http://fyndiq.github.io/api-v1/#delete-delete-products
+func (fapi *FyndiqAPI) DeleteProduct(id int) error {
+	url := fapi.getURL(
+		getPath([]string{productSegment, strconv.Itoa(id)}),
+		RequestParams{},
+	)
+	_, err := httpRequest("DELETE", url, nil)
+	return err
 }
