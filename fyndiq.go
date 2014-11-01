@@ -1,7 +1,9 @@
 package fyndiq
 
 const (
-	URL = "https://fyndiq.se/api/v1/"
+	URL         = "https://fyndiq.se/"
+	API_SEGMENT = "api"
+	API_VERSION = "v1"
 )
 
 type FyndiqApi struct {

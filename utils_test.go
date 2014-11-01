@@ -14,6 +14,7 @@ func TestUtils(t *testing.T) {
 			expected := URL + "test?token=token&user=user"
 			So(url, ShouldEqual, expected)
 		})
+
 		Convey("getUrl with params", func() {
 			url := fapi.getUrl("test", RequestParams{
 				"marked": "true",
@@ -22,5 +23,16 @@ func TestUtils(t *testing.T) {
 			So(url, ShouldEqual, expected)
 		})
 
+		Convey("getPath returns correct path with empty params", func() {
+			path := getPath([]string{})
+			expected := "api/v1"
+			So(path, ShouldEqual, expected)
+		})
+
+		Convey("getPath returns correct path", func() {
+			path := getPath([]string{"new", "test", "1"})
+			expected := "api/v1/new/test/1"
+			So(path, ShouldEqual, expected)
+		})
 	})
 }
