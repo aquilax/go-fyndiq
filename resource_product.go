@@ -111,3 +111,14 @@ func (fapi *FyndiqAPI) CreateProduct(product *Product) (string, error) {
 	}
 	return "", err
 }
+
+// UpdateProduct updates existing product
+// http://fyndiq.github.io/api-v1/#post-create-products
+func (fapi *FyndiqAPI) UpdateProduct(id int, updateData []byte) (error) {
+	url := fapi.getURL(
+		getPath([]string{productSegment, strconv.Itoa(id)}),
+		RequestParams{},
+	)
+	_, err := httpRequest("PUT", url, bytes.NewBuffer(updateData))
+	return err
+}
