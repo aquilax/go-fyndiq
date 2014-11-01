@@ -1,6 +1,7 @@
 package fyndiq
 
 import (
+	"bytes"
 	"encoding/json"
 	"strconv"
 )
@@ -91,4 +92,22 @@ func (fapi *FyndiqAPI) DeleteProduct(id int) error {
 	)
 	_, err := httpRequest("DELETE", url, nil)
 	return err
+}
+
+// CreateProduct creates new product
+// http://fyndiq.github.io/api-v1/#post-create-products
+func (fapi *FyndiqAPI) CreateProduct(product *Product) (string, error) {
+	url := fapi.getURL(
+		getPath([]string{productSegment}),
+		RequestParams{},
+	)
+	post, err := json.Marshal(product)
+	if err != nil {
+		return "", err
+	}
+	resp, err := httpRequest("POST", url, bytes.NewBuffer(post))
+	if err == nil {
+		return resp.header["Location"][0], nil
+	}
+	return "", err
 }
