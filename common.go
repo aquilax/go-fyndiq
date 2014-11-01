@@ -1,6 +1,9 @@
 package fyndiq
 
-// Generic meta data response header
+// RequestParams is used for passing query params
+type RequestParams map[string]string
+
+// MetaData holds the generic meta data response header
 type MetaData struct {
 	Limit      int    `json: "limit"`
 	Next       string `json: "next"`
@@ -9,7 +12,7 @@ type MetaData struct {
 	TotalCount int    `json: "total_count"`
 }
 
-// Generic response with meta data
+// MetaResponse holds generic response with meta data
 type MetaResponse struct {
 	Meta MetaData `json: "meta"`
 }

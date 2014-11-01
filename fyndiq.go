@@ -6,13 +6,13 @@ const (
 	apiVersion = "v1"
 )
 
-// Main Api type
+// FyndiqAPI represents the main Api type
 type FyndiqAPI struct {
 	user  string
 	token string
 }
 
-// Creates new API Instance
+// NewFyndiqAPI creates new API Instance
 func NewFyndiqAPI(user string, token string) *FyndiqAPI {
 	return &FyndiqAPI{user, token}
 }

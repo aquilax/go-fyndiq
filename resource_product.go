@@ -9,7 +9,7 @@ const (
 	productSegment = "product"
 )
 
-// Article group variation
+// Variation for article group
 // http://fyndiq.github.io/api-v1/#product-article-group
 type Variation struct {
 	ID             int    `json: "id"`
@@ -20,14 +20,14 @@ type Variation struct {
 	PlatformItemNo string `json: "platform_item_no"`
 }
 
-// Article group
+// ArticleGroup for product
 // http://fyndiq.github.io/api-v1/#product-article
 type ArticleGroup struct {
 	Name       string      `json: "name"`
 	Variations []Variation `json: "variations"`
 }
 
-// Single product structure
+// Product represents single product
 // http://fyndiq.github.io/api-v1/#product
 type Product struct {
 	Title             string       `json: "title"`
@@ -46,13 +46,13 @@ type Product struct {
 	Images            []string     `json: "images"`
 }
 
-// List of products structure
+// ProductList represents list of products with meta data
 type ProductList struct {
 	MetaResponse
 	Objects []Product `json: "objects"`
 }
 
-// Fetches list of all products
+// GetProducts fetches list of all products
 // http://fyndiq.github.io/api-v1/#get-read-products
 func (fapi *FyndiqAPI) GetProducts() (*ProductList, error) {
 	url := fapi.getURL(
@@ -67,7 +67,7 @@ func (fapi *FyndiqAPI) GetProducts() (*ProductList, error) {
 	return result, json.Unmarshal(jsonBlob, &result)
 }
 
-// Fetches single product by ID
+// GetProduct fetches single product by ID
 // http://fyndiq.github.io/api-v1/#get-read-products
 func (fapi *FyndiqAPI) GetProduct(id int) (*Product, error) {
 	url := fapi.getURL(
