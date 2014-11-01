@@ -39,13 +39,9 @@ func httpRequest(method string, url string, body io.Reader) (*response, error) {
 	}
 	defer resp.Body.Close()
 	contents, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	return &response{
 		resp.StatusCode,
 		contents,
 		resp.Header,
-	}, nil
+	}, err
 }
