@@ -2,6 +2,7 @@ package fyndiq
 
 import (
 	"encoding/json"
+	"strconv"
 )
 
 const (
@@ -44,11 +45,31 @@ type ProductList struct {
 	Objects []Product `json: "objects"`
 }
 
+// http://fyndiq.github.io/api-v1/#get-read-products
 func (fapi *FyndiqApi) GetProducts() (*ProductList, error) {
-	jsonBlob, err := getJsonBlob(fapi.getUrl(PRODUCT_SEGMENT, RequestParams{}))
+	url := fapi.getUrl(
+		getPath([]string{PRODUCT_SEGMENT}),
+		RequestParams{},
+	)
+	jsonBlob, err := getJsonBlob(url)
 	if err != nil {
 		return nil, err
 	}
 	var result *ProductList
 	return result, json.Unmarshal(jsonBlob, &result)
+}
+
+// http://fyndiq.github.io/api-v1/#get-read-products
+func (fapi *FyndiqApi) GetProduct(id int) (*Product, error) {
+	url := fapi.getUrl(
+		getPath([]string{PRODUCT_SEGMENT, strconv.Itoa(id)}),
+		RequestParams{},
+	)
+	jsonBlob, err := getJsonBlob(url)
+	if err != nil {
+		return nil, err
+	}
+	var result *Product
+	return result, json.Unmarshal(jsonBlob, &result)
+
 }

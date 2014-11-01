@@ -4,9 +4,19 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
+)
+
+const (
+	SEPARATOR_PATH = "/"
 )
 
 type RequestParams map[string]string
+
+func getPath(segments []string) string {
+	segments = append([]string{API_SEGMENT, API_VERSION}, segments...)
+	return strings.Join(segments, SEPARATOR_PATH)
+}
 
 func (fapi *FyndiqApi) getUrl(path string, params RequestParams) string {
 	parsedUrl, _ := url.Parse(URL)
@@ -16,7 +26,7 @@ func (fapi *FyndiqApi) getUrl(path string, params RequestParams) string {
 	for name, value := range params {
 		values.Set(name, value)
 	}
-	parsedUrl.Path = parsedUrl.Path + path
+	parsedUrl.Path = path
 	parsedUrl.RawQuery = values.Encode()
 	return parsedUrl.String()
 }
