@@ -11,7 +11,6 @@ const (
 	separatorPath = "/"
 )
 
-
 func getPath(segments []string) string {
 	segments = append([]string{apiSegment, apiVersion}, segments...)
 	return strings.Join(segments, separatorPath)

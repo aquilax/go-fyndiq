@@ -1,3 +1,4 @@
+// Package fyndiq prvides library for inteaction with Fyndiq's API
 package fyndiq
 
 const (
