@@ -11,7 +11,6 @@ const (
 	separatorPath = "/"
 )
 
-type RequestParams map[string]string
 
 func getPath(segments []string) string {
 	segments = append([]string{apiSegment, apiVersion}, segments...)
