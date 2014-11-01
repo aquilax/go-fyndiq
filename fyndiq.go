@@ -9,11 +9,12 @@ const (
 
 // FyndiqAPI represents the main Api type
 type FyndiqAPI struct {
-	user  string
-	token string
+	user     string
+	token    string
+	testMode bool
 }
 
 // NewFyndiqAPI creates new API Instance
-func NewFyndiqAPI(user string, token string) *FyndiqAPI {
-	return &FyndiqAPI{user, token}
+func NewFyndiqAPI(user string, token string, testMode bool) *FyndiqAPI {
+	return &FyndiqAPI{user, token, testMode}
 }

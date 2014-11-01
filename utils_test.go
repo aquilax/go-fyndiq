@@ -7,11 +7,11 @@ import (
 
 func TestUtils(t *testing.T) {
 	Convey("Test utils", t, func() {
-		fapi := NewFyndiqAPI("user", "token")
+		fapi := NewFyndiqAPI("user", "token", true)
 
 		Convey("getURL without params", func() {
 			url := fapi.getURL("test", RequestParams{})
-			expected := apiURL + "test?token=token&user=user"
+			expected := apiURL + "test?test=1&token=token&user=user"
 			So(url, ShouldEqual, expected)
 		})
 
@@ -19,7 +19,7 @@ func TestUtils(t *testing.T) {
 			url := fapi.getURL("test", RequestParams{
 				"marked": "true",
 			})
-			expected := apiURL + "test?marked=true&token=token&user=user"
+			expected := apiURL + "test?marked=true&test=1&token=token&user=user"
 			So(url, ShouldEqual, expected)
 		})
 

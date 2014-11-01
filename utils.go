@@ -22,6 +22,9 @@ func (fapi *FyndiqAPI) getURL(path string, params RequestParams) string {
 	values := url.Values{}
 	values.Set("user", fapi.user)
 	values.Set("token", fapi.token)
+	if fapi.testMode {
+		values.Set("test", "1")
+	}
 	for name, value := range params {
 		values.Set(name, value)
 	}
