@@ -1,10 +1,13 @@
 package fyndiq
 
-import "testing"
+import (
+	. "github.com/smartystreets/goconvey/convey"
+	"testing"
+)
 
 func TestNewFyndiqApi(t *testing.T) {
-	fapi := NewFyndiqApi("user", "token");
-	if fapi == nil {
-		t.Errorf("Expected NewFyndiqApi return pointer")
-	}
+	Convey("Constructor should not return nil", t, func() {
+		fapi := NewFyndiqApi("user", "token")
+		So(fapi, ShouldNotEqual, nil)
+	})
 }
