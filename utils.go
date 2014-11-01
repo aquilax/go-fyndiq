@@ -1,6 +1,7 @@
 package fyndiq
 
 import (
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -29,15 +30,23 @@ func (fapi *FyndiqAPI) getURL(path string, params RequestParams) string {
 	return parsedURL.String()
 }
 
-func getJSONBlob(url string) ([]byte, error) {
-	response, err := http.Get(url)
+func httpRequest(method string, url string, body io.Reader) (*response, error) {
+	req, _ := http.NewRequest(method, url, body)
+	client := &http.Client{}
+	resp, err := client.Do(req);
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
-	contents, err := ioutil.ReadAll(response.Body)
+	defer resp.Body.Close()
+	contents, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
-	return contents, nil
+
+	return &response{
+		resp.StatusCode,
+		contents,
+		resp.Header,
+	}, nil
 }
+
