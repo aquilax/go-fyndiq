@@ -1,5 +1,6 @@
 package fyndiq
 
+// Generic meta data response header
 type MetaData struct {
 	Limit      int    `json: "limit"`
 	Next       string `json: "next"`
@@ -8,6 +9,7 @@ type MetaData struct {
 	TotalCount int    `json: "total_count"`
 }
 
+// Generic response with meta data
 type MetaResponse struct {
 	Meta MetaData `json: "meta"`
 }

@@ -7,7 +7,7 @@ import (
 
 func TestNewFyndiqApi(t *testing.T) {
 	Convey("Constructor should not return nil", t, func() {
-		fapi := NewFyndiqApi("user", "token")
+		fapi := NewFyndiqAPI("user", "token")
 		So(fapi, ShouldNotEqual, nil)
 	})
 }

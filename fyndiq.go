@@ -1,16 +1,18 @@
 package fyndiq
 
 const (
-	URL         = "https://fyndiq.se/"
-	API_SEGMENT = "api"
-	API_VERSION = "v1"
+	apiURL     = "https://fyndiq.se/"
+	apiSegment = "api"
+	apiVersion = "v1"
 )
 
-type FyndiqApi struct {
+// Main Api type
+type FyndiqAPI struct {
 	user  string
 	token string
 }
 
-func NewFyndiqApi(user string, token string) *FyndiqApi {
-	return &FyndiqApi{user, token}
+// Creates new API Instance
+func NewFyndiqAPI(user string, token string) *FyndiqAPI {
+	return &FyndiqAPI{user, token}
 }

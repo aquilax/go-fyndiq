@@ -6,11 +6,13 @@ import (
 )
 
 const (
-	PRODUCT_SEGMENT = "product"
+	productSegment = "product"
 )
 
+// Article group variation
+// http://fyndiq.github.io/api-v1/#product-article-group
 type Variation struct {
-	Id             int    `json: "id"`
+	ID             int    `json: "id"`
 	Name           string `json: "name"`
 	NumInStock     int    `json: "num_in_stock"`
 	Location       string `json: "location"`
@@ -18,11 +20,15 @@ type Variation struct {
 	PlatformItemNo string `json: "platform_item_no"`
 }
 
+// Article group
+// http://fyndiq.github.io/api-v1/#product-article
 type ArticleGroup struct {
 	Name       string      `json: "name"`
 	Variations []Variation `json: "variations"`
 }
 
+// Single product structure
+// http://fyndiq.github.io/api-v1/#product
 type Product struct {
 	Title             string       `json: "title"`
 	Description       string       `json: "description"`
@@ -35,23 +41,25 @@ type Product struct {
 	ItemNo            string       `json: "item_no"`
 	PlatformItemNo    string       `json: "platform_item_no"`
 	Location          string       `json: "location"`
-	Url               string       `json: "url"`
+	URL               string       `json: "url"`
 	VariationGroup    ArticleGroup `json: "variation_group"`
 	Images            []string     `json: "images"`
 }
 
+// List of products structure
 type ProductList struct {
 	MetaResponse
 	Objects []Product `json: "objects"`
 }
 
+// Fetches list of all products
 // http://fyndiq.github.io/api-v1/#get-read-products
-func (fapi *FyndiqApi) GetProducts() (*ProductList, error) {
-	url := fapi.getUrl(
-		getPath([]string{PRODUCT_SEGMENT}),
+func (fapi *FyndiqAPI) GetProducts() (*ProductList, error) {
+	url := fapi.getURL(
+		getPath([]string{productSegment}),
 		RequestParams{},
 	)
-	jsonBlob, err := getJsonBlob(url)
+	jsonBlob, err := getJSONBlob(url)
 	if err != nil {
 		return nil, err
 	}
@@ -59,13 +67,14 @@ func (fapi *FyndiqApi) GetProducts() (*ProductList, error) {
 	return result, json.Unmarshal(jsonBlob, &result)
 }
 
+// Fetches single product by ID
 // http://fyndiq.github.io/api-v1/#get-read-products
-func (fapi *FyndiqApi) GetProduct(id int) (*Product, error) {
-	url := fapi.getUrl(
-		getPath([]string{PRODUCT_SEGMENT, strconv.Itoa(id)}),
+func (fapi *FyndiqAPI) GetProduct(id int) (*Product, error) {
+	url := fapi.getURL(
+		getPath([]string{productSegment, strconv.Itoa(id)}),
 		RequestParams{},
 	)
-	jsonBlob, err := getJsonBlob(url)
+	jsonBlob, err := getJSONBlob(url)
 	if err != nil {
 		return nil, err
 	}
