@@ -33,7 +33,7 @@ func (fapi *FyndiqAPI) getURL(path string, params RequestParams) string {
 func httpRequest(method string, url string, body io.Reader) (*response, error) {
 	req, _ := http.NewRequest(method, url, body)
 	client := &http.Client{}
-	resp, err := client.Do(req);
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -49,4 +49,3 @@ func httpRequest(method string, url string, body io.Reader) (*response, error) {
 		resp.Header,
 	}, nil
 }
-

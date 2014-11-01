@@ -4,8 +4,8 @@ package fyndiq
 type RequestParams map[string]string
 
 type response struct {
-	code int
-	body []byte
+	code   int
+	body   []byte
 	header map[string][]string
 }
 

@@ -80,5 +80,15 @@ func (fapi *FyndiqAPI) GetProduct(id int) (*Product, error) {
 	}
 	var result *Product
 	return result, json.Unmarshal(resp.body, &result)
+}
 
+// DeleteProduct deletes single product by ID
+// http://fyndiq.github.io/api-v1/#delete-delete-products
+func (fapi *FyndiqAPI) DeleteProduct(id int) error {
+	url := fapi.getURL(
+		getPath([]string{productSegment, strconv.Itoa(id)}),
+		RequestParams{},
+	)
+	_, err := httpRequest("DELETE", url, nil)
+	return err
 }
