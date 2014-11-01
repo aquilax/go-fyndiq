@@ -8,30 +8,30 @@ import (
 )
 
 const (
-	separatorPath = "/"
+	SEPARATOR_PATH = "/"
 )
 
 type RequestParams map[string]string
 
 func getPath(segments []string) string {
-	segments = append([]string{apiSegment, apiVersion}, segments...)
-	return strings.Join(segments, separatorPath)
+	segments = append([]string{API_SEGMENT, API_VERSION}, segments...)
+	return strings.Join(segments, SEPARATOR_PATH)
 }
 
-func (fapi *FyndiqAPI) getURL(path string, params RequestParams) string {
-	parsedURL, _ := url.Parse(apiURL)
+func (fapi *FyndiqApi) getUrl(path string, params RequestParams) string {
+	parsedUrl, _ := url.Parse(URL)
 	values := url.Values{}
 	values.Set("user", fapi.user)
 	values.Set("token", fapi.token)
 	for name, value := range params {
 		values.Set(name, value)
 	}
-	parsedURL.Path = path
-	parsedURL.RawQuery = values.Encode()
-	return parsedURL.String()
+	parsedUrl.Path = path
+	parsedUrl.RawQuery = values.Encode()
+	return parsedUrl.String()
 }
 
-func getJSONBlob(url string) ([]byte, error) {
+func getJsonBlob(url string) ([]byte, error) {
 	response, err := http.Get(url)
 	if err != nil {
 		return nil, err
