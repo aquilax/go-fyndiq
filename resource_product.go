@@ -33,8 +33,8 @@ type ArticleGroup struct {
 type Product struct {
 	Title             string       `json: "title"`
 	Description       string       `json: "description"`
-	Oldprice          string       `json: "oldprice"`
-	Price             string       `json: "price"`
+	Oldprice          float32      `json: "oldprice"`
+	Price             float32      `json: "price"`
 	MomsPercent       int          `json: "moms_percent"`
 	NumInStock        int          `json: "num_in_stock"`
 	State             string       `json: "state"`
