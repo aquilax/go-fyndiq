@@ -69,14 +69,26 @@ type OrderList struct {
 	Objects []Order `json: "objects"`
 }
 
+func (fapi *FyndiqAPI) ordersURL(params RequestParams) string {
+	return fapi.getURL(
+		getPath([]string{orderSegment}),
+		params,
+		true,
+	)
+}
+
+func (fapi *FyndiqAPI) orderURL(id int) string {
+	return fapi.getURL(
+		getPath([]string{orderSegment, strconv.Itoa(id)}),
+		RequestParams{},
+		true,
+	)
+}
+
 // GetOrders fetches list of all orders
 // http://fyndiq.github.io/api-v1/#resource-order
 func (fapi *FyndiqAPI) GetOrders(params RequestParams) (*OrderList, error) {
-	url := fapi.getURL(
-		getPath([]string{orderSegment}),
-		params,
-	)
-	resp, err := httpRequest("GET", url, nil)
+	resp, err := httpRequest("GET", fapi.ordersURL(params), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -86,11 +98,7 @@ func (fapi *FyndiqAPI) GetOrders(params RequestParams) (*OrderList, error) {
 
 // UpdateOrder updates existing order
 // http://fyndiq.github.io/api-v1/#resource-order
-func (fapi *FyndiqAPI) UpdatOrder(id int, updateData []byte) error {
-	url := fapi.getURL(
-		getPath([]string{orderSegment, strconv.Itoa(id)}),
-		RequestParams{},
-	)
-	_, err := httpRequest("PUT", url, bytes.NewBuffer(updateData))
+func (fapi *FyndiqAPI) UpdateOrder(id int, updateData []byte) error {
+	_, err := httpRequest("PUT", fapi.orderURL(id), bytes.NewBuffer(updateData))
 	return err
 }

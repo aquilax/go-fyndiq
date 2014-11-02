@@ -1,7 +1,9 @@
 package fyndiq
 
 import (
+	"bytes"
 	"encoding/json"
+	"strconv"
 )
 
 const (
@@ -29,15 +31,32 @@ type Account struct {
 	NotifyAnswer   string `json: "notify_answer"`
 }
 
-func (fapi *FyndiqAPI) GetAccount() (*Account, error) {
-	url := fapi.getURL(
+func (fapi *FyndiqAPI) getAccountURL() string {
+	return fapi.getURL(
 		getPath([]string{accountSegment}),
 		RequestParams{},
+		true,
 	)
-	resp, err := httpRequest("GET", url, nil)
+}
+
+func (fapi *FyndiqAPI) GetAccount() (*Account, error) {
+	resp, err := httpRequest("GET", fapi.getAccountURL(), nil)
 	if err != nil {
 		return nil, err
 	}
 	var result *Account
 	return result, json.Unmarshal(resp.body, &result)
+}
+
+func (fapi *FyndiqAPI) updateAccountURL(id int) string {
+	return fapi.getURL(
+		getPath([]string{accountSegment, strconv.Itoa(id)}),
+		RequestParams{},
+		true,
+	)
+}
+
+func (fapi *FyndiqAPI) UpdateAccount(id int, updateData []byte) error {
+	_, err := httpRequest("PUT", fapi.updateAccountURL(id), bytes.NewBuffer(updateData))
+	return err
 }

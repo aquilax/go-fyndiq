@@ -17,11 +17,13 @@ func getPath(segments []string) string {
 	return strings.Join(segments, separatorPath)
 }
 
-func (fapi *FyndiqAPI) getURL(path string, params RequestParams) string {
+func (fapi *FyndiqAPI) getURL(path string, params RequestParams, auth bool) string {
 	parsedURL, _ := url.Parse(apiURL)
 	values := url.Values{}
-	values.Set("user", fapi.user)
-	values.Set("token", fapi.token)
+	if auth {
+		values.Set("user", fapi.user)
+		values.Set("token", fapi.token)
+	}
 	if fapi.testMode {
 		values.Set("test", "1")
 	}
