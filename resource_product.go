@@ -53,14 +53,26 @@ type ProductList struct {
 	Objects []Product `json: "objects"`
 }
 
+func (fapi *FyndiqAPI) productsURL(params RequestParams) string {
+	return fapi.getURL(
+		getPath([]string{productSegment}),
+		params,
+		true,
+	)
+}
+
+func (fapi *FyndiqAPI) productURL(id int) string {
+	return fapi.getURL(
+		getPath([]string{productSegment, strconv.Itoa(id)}),
+		RequestParams{},
+		true,
+	)
+}
+
 // GetProducts fetches list of all products
 // http://fyndiq.github.io/api-v1/#get-read-products
 func (fapi *FyndiqAPI) GetProducts() (*ProductList, error) {
-	url := fapi.getURL(
-		getPath([]string{productSegment}),
-		RequestParams{},
-	)
-	resp, err := httpRequest("GET", url, nil)
+	resp, err := httpRequest("GET", fapi.productsURL(RequestParams{}), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -71,11 +83,7 @@ func (fapi *FyndiqAPI) GetProducts() (*ProductList, error) {
 // GetProduct fetches single product by ID
 // http://fyndiq.github.io/api-v1/#get-read-products
 func (fapi *FyndiqAPI) GetProduct(id int) (*Product, error) {
-	url := fapi.getURL(
-		getPath([]string{productSegment, strconv.Itoa(id)}),
-		RequestParams{},
-	)
-	resp, err := httpRequest("GET", url, nil)
+	resp, err := httpRequest("GET", fapi.productURL(id), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -86,26 +94,18 @@ func (fapi *FyndiqAPI) GetProduct(id int) (*Product, error) {
 // DeleteProduct deletes single product by ID
 // http://fyndiq.github.io/api-v1/#delete-delete-products
 func (fapi *FyndiqAPI) DeleteProduct(id int) error {
-	url := fapi.getURL(
-		getPath([]string{productSegment, strconv.Itoa(id)}),
-		RequestParams{},
-	)
-	_, err := httpRequest("DELETE", url, nil)
+	_, err := httpRequest("DELETE", fapi.productURL(id), nil)
 	return err
 }
 
 // CreateProduct creates new product
 // http://fyndiq.github.io/api-v1/#post-create-products
 func (fapi *FyndiqAPI) CreateProduct(product *Product) (string, error) {
-	url := fapi.getURL(
-		getPath([]string{productSegment}),
-		RequestParams{},
-	)
 	post, err := json.Marshal(product)
 	if err != nil {
 		return "", err
 	}
-	resp, err := httpRequest("POST", url, bytes.NewBuffer(post))
+	resp, err := httpRequest("POST", fapi.productsURL(RequestParams{}), bytes.NewBuffer(post))
 	if err == nil {
 		return resp.header["Location"][0], nil
 	}
@@ -115,10 +115,6 @@ func (fapi *FyndiqAPI) CreateProduct(product *Product) (string, error) {
 // UpdateProduct updates existing product
 // http://fyndiq.github.io/api-v1/#post-create-products
 func (fapi *FyndiqAPI) UpdateProduct(id int, updateData []byte) error {
-	url := fapi.getURL(
-		getPath([]string{productSegment, strconv.Itoa(id)}),
-		RequestParams{},
-	)
-	_, err := httpRequest("PUT", url, bytes.NewBuffer(updateData))
+	_, err := httpRequest("PUT", fapi.productURL(id), bytes.NewBuffer(updateData))
 	return err
 }
