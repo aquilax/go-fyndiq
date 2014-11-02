@@ -52,7 +52,7 @@ func (fapi *FyndiqAPI) createAccountURL() string {
 		getPath([]string{accountSegment}),
 		RequestParams{},
 		false,
-	)	
+	)
 }
 
 func (fapi *FyndiqAPI) GetAccount() (*Account, error) {
