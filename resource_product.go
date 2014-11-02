@@ -33,8 +33,8 @@ type ArticleGroup struct {
 type Product struct {
 	Title             string       `json: "title"`
 	Description       string       `json: "description"`
-	Oldprice          string       `json: "oldprice"`
-	Price             string       `json: "price"`
+	Oldprice          float32      `json: "oldprice"`
+	Price             float32      `json: "price"`
 	MomsPercent       int          `json: "moms_percent"`
 	NumInStock        int          `json: "num_in_stock"`
 	State             string       `json: "state"`
@@ -114,7 +114,7 @@ func (fapi *FyndiqAPI) CreateProduct(product *Product) (string, error) {
 
 // UpdateProduct updates existing product
 // http://fyndiq.github.io/api-v1/#post-create-products
-func (fapi *FyndiqAPI) UpdateProduct(id int, updateData []byte) (error) {
+func (fapi *FyndiqAPI) UpdateProduct(id int, updateData []byte) error {
 	url := fapi.getURL(
 		getPath([]string{productSegment, strconv.Itoa(id)}),
 		RequestParams{},
