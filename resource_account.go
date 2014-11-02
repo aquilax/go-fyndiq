@@ -39,6 +39,22 @@ func (fapi *FyndiqAPI) getAccountURL() string {
 	)
 }
 
+func (fapi *FyndiqAPI) updateAccountURL(id int) string {
+	return fapi.getURL(
+		getPath([]string{accountSegment, strconv.Itoa(id)}),
+		RequestParams{},
+		true,
+	)
+}
+
+func (fapi *FyndiqAPI) createAccountURL() string {
+	return fapi.getURL(
+		getPath([]string{accountSegment}),
+		RequestParams{},
+		false,
+	)	
+}
+
 func (fapi *FyndiqAPI) GetAccount() (*Account, error) {
 	resp, err := httpRequest("GET", fapi.getAccountURL(), nil)
 	if err != nil {
@@ -48,15 +64,19 @@ func (fapi *FyndiqAPI) GetAccount() (*Account, error) {
 	return result, json.Unmarshal(resp.body, &result)
 }
 
-func (fapi *FyndiqAPI) updateAccountURL(id int) string {
-	return fapi.getURL(
-		getPath([]string{accountSegment, strconv.Itoa(id)}),
-		RequestParams{},
-		true,
-	)
-}
-
 func (fapi *FyndiqAPI) UpdateAccount(id int, updateData []byte) error {
 	_, err := httpRequest("PUT", fapi.updateAccountURL(id), bytes.NewBuffer(updateData))
 	return err
+}
+
+func (fapi *FyndiqAPI) CreateAccount(account *Account) (string, error) {
+	post, err := json.Marshal(account)
+	if err != nil {
+		return "", err
+	}
+	resp, err := httpRequest("POST", fapi.createAccountURL(), bytes.NewBuffer(post))
+	if err == nil {
+		return resp.header["Location"][0], nil
+	}
+	return "", err
 }
