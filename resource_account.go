@@ -10,6 +10,7 @@ const (
 	accountSegment = "account"
 )
 
+// Account contains the account information
 type Account struct {
 	UserName       string `json: "username"`
 	Password       string `json: "password"`
@@ -55,6 +56,8 @@ func (fapi *FyndiqAPI) createAccountURL() string {
 	)
 }
 
+// GetAccount returns information about the current account
+// http://fyndiq.github.io/api-v1/#get-read-account
 func (fapi *FyndiqAPI) GetAccount() (*Account, error) {
 	resp, err := httpRequest("GET", fapi.getAccountURL(), nil)
 	if err != nil {
@@ -64,11 +67,15 @@ func (fapi *FyndiqAPI) GetAccount() (*Account, error) {
 	return result, json.Unmarshal(resp.body, &result)
 }
 
+// UpdateAccount updates the provided account fields
+// http://fyndiq.github.io/api-v1/#put-update-account
 func (fapi *FyndiqAPI) UpdateAccount(id int, updateData []byte) error {
 	_, err := httpRequest("PUT", fapi.updateAccountURL(id), bytes.NewBuffer(updateData))
 	return err
 }
 
+// CreateAccount creates new account
+// http://fyndiq.github.io/api-v1/#post-create-account
 func (fapi *FyndiqAPI) CreateAccount(account *Account) (string, error) {
 	post, err := json.Marshal(account)
 	if err != nil {
