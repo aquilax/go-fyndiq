@@ -20,7 +20,7 @@ type Account struct {
 	UserPhone      string `json: "user_phone"`
 	ShopName       string `json: "shop_name"`
 	ShopCompany    string `json: "shop_company"`
-	ShopUrl        string `json: "shop_url"`
+	ShopURL        string `json: "shop_url"`
 	ShopOrgNum     string `json: "shop_org_num"`
 	ShopVatNum     string `json: "shop_vat_num"`
 	ShopAddress    string `json: "shop_address"`

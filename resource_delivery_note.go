@@ -10,6 +10,7 @@ const (
 	deliveryNotesSegment = "hamta-plocklistor"
 )
 
+// DeliveryListOrders contains list of orders for which delivery notes should be exported
 type DeliveryListOrders struct {
 	Orders []int `json: "orders"`
 }
